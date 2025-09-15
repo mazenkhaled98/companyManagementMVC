@@ -7,7 +7,9 @@ namespace Demo.presentation
             var builder = WebApplication.CreateBuilder(args);
 
             // Add services to the container.
-            builder.Services.AddControllersWithViews();
+            #region DI Container
+            builder.Services.AddControllersWithViews(); 
+            #endregion
 
             var app = builder.Build();
 
@@ -16,7 +18,7 @@ namespace Demo.presentation
             {
                 app.UseExceptionHandler("/Home/Error");
                 // The default HSTS value is 30 days. You may want to change this for production scenarios, see https://aka.ms/aspnetcore-hsts.
-                app.UseHsts();
+                app.UseHsts(); //middleware that make sure all requests to be https
             }
 
             app.UseHttpsRedirection();
@@ -24,7 +26,7 @@ namespace Demo.presentation
 
             app.UseRouting();
 
-            app.UseAuthorization();
+           
 
             app.MapControllerRoute(
                 name: "default",
