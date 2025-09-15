@@ -1,5 +1,8 @@
+using Demo.BusinessLogic.Services.Classes;
+using Demo.BusinessLogic.Services.Interfaces;
 using Demo.DataAccess.Data.Contexts;
-using Demo.DataAccess.Data.Repositories;
+using Demo.DataAccess.Data.Repositories.Classes;
+using Demo.DataAccess.Data.Repositories.Interfaces;
 using Microsoft.EntityFrameworkCore;
 
 namespace Demo.presentation
@@ -21,6 +24,8 @@ namespace Demo.presentation
 
             builder.Services.AddScoped<IDepartmentRepository,DepartmentRepository>();
             //ask u to create instance of DepartmentRepository class whenever u need IDepartmentRepository interface
+
+            builder.Services.AddScoped<IDepartmentService, DepartmentService>();
             #endregion
 
             var app = builder.Build();
