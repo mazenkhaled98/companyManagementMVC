@@ -1,4 +1,5 @@
 using Demo.DataAccess.Data.Contexts;
+using Demo.DataAccess.Data.Repositories;
 using Microsoft.EntityFrameworkCore;
 
 namespace Demo.presentation
@@ -17,6 +18,9 @@ namespace Demo.presentation
             { 
             options.UseSqlServer(builder.Configuration.GetConnectionString("DefaultConnectionString")!);
             });
+
+            builder.Services.AddScoped<IDepartmentRepository,DepartmentRepository>();
+            //ask u to create instance of DepartmentRepository class whenever u need IDepartmentRepository interface
             #endregion
 
             var app = builder.Build();
