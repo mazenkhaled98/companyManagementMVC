@@ -8,7 +8,8 @@ namespace Demo.presentation.Controllers
     {
         public IActionResult Index()
         {
-            return View();
+            var departments =_departmentService.GetAllDepartments();
+            return View(departments);
         }
     }
 }
