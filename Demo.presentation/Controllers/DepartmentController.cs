@@ -4,6 +4,7 @@ using Demo.BusinessLogic.Services.Interfaces;
 using Demo.DataAccess.Models;
 using Demo.presentation.ViewModels;
 using Microsoft.AspNetCore.Mvc;
+using Microsoft.EntityFrameworkCore.Metadata.Internal;
 
 namespace Demo.presentation.Controllers
 {
@@ -155,6 +156,60 @@ namespace Demo.presentation.Controllers
                 }
             }
             return View(departmentVM);
+        }
+
+        #endregion
+
+        #region Delete
+
+        //[HttpGet]
+        //public IActionResult Delete(int? id)
+        //{
+        //    if (!id.HasValue || id <= 0)
+        //    {
+        //        return BadRequest();
+        //    }
+        //    var department = _departmentService.GetDepartmentById(id.Value);
+        //    if (department == null)
+        //    {
+        //        return NotFound();
+        //    }
+        //    return View(department);
+        //}
+
+        [HttpPost]
+        public IActionResult Delete([FromRoute]int id)
+        {
+            if ( id == 0)
+            {
+                return BadRequest();
+            }
+            try
+            {
+                bool isDeleted = _departmentService.DeleteDepartment(id);
+                if (isDeleted)
+                {
+                    return RedirectToAction(nameof(Index));
+                }
+                else
+                {
+                    ModelState.AddModelError(string.Empty, "Failed to delete department");
+               
+                }
+            }
+            catch (Exception ex)
+            {
+                if (_env.IsDevelopment())
+                {
+                    _logger.LogError(ex, "Error occurred while deleting department");
+                }
+                else
+                {
+                    _logger.LogError(ex, "Error occurred while deleting department");
+                    return RedirectToAction("ErrorView", ex);
+                }
+            }
+            return RedirectToAction(nameof(Delete), new { id });
         }
 
         #endregion
