@@ -1,5 +1,8 @@
 ﻿
 
+using Demo.DataAccess.Models.DepartmentModule;
+using Demo.DataAccess.Models.EmployeeModule;
+
 namespace Demo.DataAccess.Data.Contexts
 {
     //Dependancy Injection
@@ -16,5 +19,8 @@ namespace Demo.DataAccess.Data.Contexts
             modelBuilder.ApplyConfigurationsFromAssembly(Assembly.GetExecutingAssembly());
         }
         public DbSet<Department> Departments { get; set; }
+
+        public DbSet<Employee> Employees { get; set; }
     }
+
 }
