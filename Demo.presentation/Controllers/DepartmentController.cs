@@ -1,6 +1,8 @@
 ﻿
 using Demo.BusinessLogic.DTOS;
 using Demo.BusinessLogic.Services.Interfaces;
+using Demo.DataAccess.Models;
+using Demo.presentation.ViewModels;
 using Microsoft.AspNetCore.Mvc;
 
 namespace Demo.presentation.Controllers
@@ -56,7 +58,7 @@ namespace Demo.presentation.Controllers
                     else
                     {
                                                _logger.LogError(ex, "Error occurred while creating department");
-                        return RedirectToAction("ErrorView");
+                        return RedirectToAction("ErrorView",ex);
                     }
                 }
             }
@@ -64,6 +66,97 @@ namespace Demo.presentation.Controllers
 
 
         }
+        #endregion
+
+        #region Details
+
+        [HttpGet]
+        public IActionResult Details(int? id)
+        {
+           if(!id.HasValue || id <= 0)
+            {
+                return BadRequest();
+            }
+            var department = _departmentService.GetDepartmentById(id.Value);
+            if(department == null)
+            {
+                return NotFound();
+            }
+            return View(department);
+        }
+        #endregion
+
+
+        #region Edit
+        [HttpGet]
+        public IActionResult Edit(int? id)
+        {
+            if (!id.HasValue || id <= 0)
+            {
+                return BadRequest();
+            }
+            var department = _departmentService.GetDepartmentById(id.Value);
+            if (department == null)
+            {
+                return NotFound();
+            }
+            var departmentVM = new DepartmentEditViewModel
+            {
+               
+                Name = department.Name,
+                Code = department.Code,
+                Description = department.Description,
+                Createdon = department.CreatedOn.HasValue ? department.CreatedOn.Value :default
+
+            };
+            return View(departmentVM);
+        }
+
+        [HttpPost]
+        public IActionResult Edit([FromRoute]int? id,DepartmentEditViewModel departmentVM)
+        {
+           if(ModelState.IsValid)
+            {
+                try
+                {
+                    if(!id.HasValue || id <= 0)
+                    {
+                        return BadRequest();
+                    }
+                    var departmentDto = new UpdateDepartmentDto
+                    {
+                        Id = id.Value,
+                        Name = departmentVM.Name,
+                        Code = departmentVM.Code,
+                        Description = departmentVM.Description,
+                        DateOfCreation = departmentVM.Createdon
+                    };
+                    int result = _departmentService.UpdateDepartment(departmentDto);
+                    if (result > 0)
+                    {
+                        return RedirectToAction(nameof(Index));
+                    }
+                    else
+                    {
+                        ModelState.AddModelError(string.Empty, "Failed to update department");
+                    }
+                }
+                catch (Exception ex)
+                {
+                    if (_env.IsDevelopment())
+                    {
+                        _logger.LogError(ex, "Error occurred while updating department");
+                    }
+                    else
+                    {
+                        _logger.LogError(ex, "Error occurred while updating department");
+                        return RedirectToAction("ErrorView",ex);
+                    }
+                }
+            }
+            return View(departmentVM);
+        }
+
         #endregion
     }
 }
