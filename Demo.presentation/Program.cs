@@ -1,3 +1,10 @@
+using Demo.BusinessLogic.Services.Classes;
+using Demo.BusinessLogic.Services.Interfaces;
+using Demo.DataAccess.Data.Contexts;
+using Demo.DataAccess.Data.Repositories.Classes;
+using Demo.DataAccess.Data.Repositories.Interfaces;
+using Microsoft.EntityFrameworkCore;
+
 namespace Demo.presentation
 {
     public class Program
@@ -7,7 +14,19 @@ namespace Demo.presentation
             var builder = WebApplication.CreateBuilder(args);
 
             // Add services to the container.
-            builder.Services.AddControllersWithViews();
+            #region DI Container
+            builder.Services.AddControllersWithViews(); 
+
+            builder.Services.AddDbContext<ApplicationDbContext>(options =>
+            { 
+            options.UseSqlServer(builder.Configuration.GetConnectionString("DefaultConnectionString")!);
+            });
+
+            builder.Services.AddScoped<IDepartmentRepository,DepartmentRepository>();
+            //ask u to create instance of DepartmentRepository class whenever u need IDepartmentRepository interface
+
+            builder.Services.AddScoped<IDepartmentService, DepartmentService>();
+            #endregion
 
             var app = builder.Build();
 
@@ -16,7 +35,7 @@ namespace Demo.presentation
             {
                 app.UseExceptionHandler("/Home/Error");
                 // The default HSTS value is 30 days. You may want to change this for production scenarios, see https://aka.ms/aspnetcore-hsts.
-                app.UseHsts();
+                app.UseHsts(); //middleware that make sure all requests to be https
             }
 
             app.UseHttpsRedirection();
@@ -24,7 +43,7 @@ namespace Demo.presentation
 
             app.UseRouting();
 
-            app.UseAuthorization();
+           
 
             app.MapControllerRoute(
                 name: "default",
@@ -34,3 +53,5 @@ namespace Demo.presentation
         }
     }
 }
+
+

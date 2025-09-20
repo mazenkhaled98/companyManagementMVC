@@ -1,5 +1,5 @@
 using System.Diagnostics;
-using Demo.presentation.Models;
+using Demo.presentation.ViewModels;
 using Microsoft.AspNetCore.Mvc;
 
 namespace Demo.presentation.Controllers
@@ -7,6 +7,7 @@ namespace Demo.presentation.Controllers
     public class HomeController : Controller
     {
         private readonly ILogger<HomeController> _logger;
+        //console , file ,db
 
         public HomeController(ILogger<HomeController> logger)
         {
@@ -15,6 +16,7 @@ namespace Demo.presentation.Controllers
 
         public IActionResult Index()
         {
+            _logger.LogInformation($"now iam the index");
             return View();
         }
 
