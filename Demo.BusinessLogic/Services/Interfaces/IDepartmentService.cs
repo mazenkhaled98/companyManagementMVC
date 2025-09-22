@@ -1,4 +1,4 @@
-﻿using Demo.BusinessLogic.DTOS;
+﻿using Demo.BusinessLogic.DTOS.DepartmentDtos;
 
 namespace Demo.BusinessLogic.Services.Interfaces
 {

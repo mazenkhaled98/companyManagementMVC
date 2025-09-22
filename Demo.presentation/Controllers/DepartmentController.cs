@@ -1,5 +1,6 @@
 ﻿
 using Demo.BusinessLogic.DTOS;
+using Demo.BusinessLogic.DTOS.DepartmentDtos;
 using Demo.BusinessLogic.Services.Interfaces;
 using Demo.DataAccess.Models;
 using Demo.presentation.ViewModels;

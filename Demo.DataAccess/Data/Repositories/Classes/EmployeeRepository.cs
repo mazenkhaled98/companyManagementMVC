@@ -6,7 +6,7 @@ using Microsoft.EntityFrameworkCore;
 
 namespace Demo.DataAccess.Data.Repositories.Classes
 {
-    internal class EmployeeRepository(ApplicationDbContext _dbContext) :GenericRepository<Employee>(_dbContext),  IEmployeeRepository
+    public class EmployeeRepository(ApplicationDbContext _dbContext) :GenericRepository<Employee>(_dbContext),  IEmployeeRepository
     {
         
 

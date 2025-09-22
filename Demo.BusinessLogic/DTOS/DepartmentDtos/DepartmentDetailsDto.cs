@@ -1,6 +1,6 @@
 ﻿using Demo.DataAccess.Models;
 
-namespace Demo.BusinessLogic.DTOS
+namespace Demo.BusinessLogic.DTOS.DepartmentDtos
 {
     public class DepartmentDetailsDto
     {

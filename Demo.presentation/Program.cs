@@ -26,6 +26,8 @@ namespace Demo.presentation
             //ask u to create instance of DepartmentRepository class whenever u need IDepartmentRepository interface
 
             builder.Services.AddScoped<IDepartmentService, DepartmentService>();
+
+            builder.Services.AddScoped<IEmployeeRepository, EmployeeRepository>();
             #endregion
 
             var app = builder.Build();
