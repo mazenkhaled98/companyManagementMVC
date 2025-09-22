@@ -33,7 +33,14 @@ namespace Demo.BusinessLogic.Services.Classes
         public IEnumerable<EmployeeDto> GetAllEmployees(bool withTracking = false)
         {
             var employees = _employeeRepository.GetAll(withTracking);
-            return _mapper.Map<IEnumerable<Employee>,IEnumerable<EmployeeDto>>(employees);
+            return _mapper.Map<IEnumerable<Employee>, IEnumerable<EmployeeDto>>(employees);
+            //return  _employeeRepository.GetAll(e=> new EmployeeDto()
+            //  { 
+            //  Id=e.Id,
+            //  Name=e.Name,
+            //  Age=e.Age,
+            //  Salary=e.Salary,
+            //  }).Where(e=>e.Age>27);
             //var employeeDtos = employees.Select(e => new EmployeeDto()
             //{
             //    Id = e.Id,
@@ -45,7 +52,17 @@ namespace Demo.BusinessLogic.Services.Classes
             //    Gender = e.Gender.ToString(),
             //    EmployeeType = e.Employeetype.ToString()
             //});
-           
+
+
+            //var employees=  _employeeRepository.GetIEnumrable().Where(e => e.IsDeleted == false).Select(e=>new EmployeeDto()
+            //  {
+            //      Id = e.Id,
+            //      Age = e.Age,
+            //      Salary = e.Salary,
+
+            //  });
+            //  return employees.ToList();
+
         }
 
         public EmployeeDetailsDto? GetEmployeeById(int id)
