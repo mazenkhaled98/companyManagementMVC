@@ -1,3 +1,4 @@
+using Demo.BusinessLogic.Mappings;
 using Demo.BusinessLogic.Services.Classes;
 using Demo.BusinessLogic.Services.Interfaces;
 using Demo.DataAccess.Data.Contexts;
@@ -28,6 +29,8 @@ namespace Demo.presentation
             builder.Services.AddScoped<IDepartmentService, DepartmentService>();
 
             builder.Services.AddScoped<IEmployeeRepository, EmployeeRepository>();
+            //builder.Services.AddAutoMapper(cfg => { },typeof(MappingProfile).Assembly);
+            builder.Services.AddAutoMapper(Mapping=>Mapping.AddProfile(new MappingProfile()));
             #endregion
 
             var app = builder.Build();
