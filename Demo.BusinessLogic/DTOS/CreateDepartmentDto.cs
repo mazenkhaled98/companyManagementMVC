@@ -1,8 +1,13 @@
-﻿namespace Demo.BusinessLogic.DTOS
+﻿using System.ComponentModel.DataAnnotations;
+
+namespace Demo.BusinessLogic.DTOS
 {
     public class CreateDepartmentDto
     {
+        [Required] //name is required
+
         public string Name { get; set; } = string.Empty;
+        [Required(ErrorMessage ="code is required !!")]
 
         public string Code { get; set; } = string.Empty;
 
