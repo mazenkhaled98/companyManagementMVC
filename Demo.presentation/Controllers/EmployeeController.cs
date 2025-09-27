@@ -81,7 +81,71 @@ namespace Demo.Presentation.Controllers
 
         #endregion
 
-      
+        #region Edit
+
+        [HttpGet]
+        public IActionResult Edit(int? id)
+        {
+            if (!id.HasValue) return BadRequest();
+            var employee = _employeeService.GetEmployeeById(id.Value);
+            if (employee is null) return NotFound();
+            var employeeDto = new UpdateEmployeeDto()
+            {
+                Id = employee.Id,
+                Name = employee.Name,
+                Age = employee.Age,
+                Address = employee.Address,
+                IsActive = employee.IsActive,
+                Email = employee.Email,
+                Salary = employee.Salary,
+                PhoneNumber = employee.PhoneNumber,
+                HiringDate = employee.HiringDate,
+                Gender = Enum.Parse<Gender>(employee.Gender),
+                EmployeeType = Enum.Parse<EmployeeType>(employee.EmployeeType)
+            };
+            return View(employeeDto);
+        }
+
+        [HttpPost]
+        [ValidateAntiForgeryToken]
+        public IActionResult Edit([FromRoute] int? id, UpdateEmployeeDto employeeDto)
+        {
+            if (!id.HasValue || id != employeeDto.Id) return BadRequest();
+            if (!ModelState.IsValid) return View(employeeDto);
+            try
+            {
+                int result = _employeeService.UpdateEmployee(employeeDto);
+                if (result > 0)
+                {
+                    return RedirectToAction(nameof(Index));
+                }
+                else
+                {
+                    ModelState.AddModelError("", "Employee can't be updated");
+                    return View(employeeDto);
+                }
+            }
+            catch (Exception ex)
+            {
+                if (_env.IsDevelopment())
+                {
+                    // Log error in file/DB
+                    _logger.LogError($"Employee can't be updated because : {ex.Message}");
+                    return View(employeeDto);
+                }
+                else
+                {
+                    // Log error in file/DB
+                    _logger.LogError($"Employee can't be updated because : {ex}");
+                    return View("Error", ex); // Error.cshtml
+                }
+            }
+        }
+
+
+        #endregion
+
+
 
 
 
