@@ -141,6 +141,45 @@ namespace Demo.Presentation.Controllers
                 }
             }
         }
+        #region Delete
+
+        [HttpPost]
+        [ValidateAntiForgeryToken]
+        public IActionResult Delete(int id)
+        {
+            if (id == 0) return BadRequest(); // 400
+            try
+            {
+                bool isDeleted = _employeeService.DeleteEmployee(id);
+                if (isDeleted)
+                {
+                    return RedirectToAction(nameof(Index));
+                }
+                else
+                {
+                    ModelState.AddModelError(string.Empty, "Employee can't be deleted!");
+                }
+            }
+            catch (Exception ex)
+            {
+                // Development ==> action , Log error in console , View
+                if (_env.IsDevelopment())
+                {
+                    // Log error in file/DB
+                    _logger.LogError($"Employee can't be created because : {ex.Message}");
+                }
+                else
+                {
+                    // Log error in file/DB
+                    _logger.LogError($"Employee can't be created because : {ex}");
+                    return View("Error", ex); // Error.cshtml
+                }
+                // Deployment ==> Log error in file/DB , return view [ Error.cshtml ]
+            }
+            return RedirectToAction(nameof(Delete), new { id = id });
+        }
+
+        #endregion
 
 
         #endregion

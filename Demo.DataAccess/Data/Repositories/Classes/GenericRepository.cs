@@ -16,11 +16,11 @@ namespace Demo.DataAccess.Data.Repositories.Classes
         {
             if (withTracking)
             {
-                return _dbContext.Set<T>().ToList();
+                return _dbContext.Set<T>().Where(e=>e.IsDeleted==false).ToList();
             }
             else
             {
-                return _dbContext.Set<T>().AsNoTracking().ToList();
+                return _dbContext.Set<T>().Where(e => e.IsDeleted == false).AsNoTracking().ToList();
             }
 
         }
