@@ -68,6 +68,23 @@ namespace Demo.Presentation.Controllers
         }
 
         #endregion
+        #region Details
+
+        [HttpGet]
+        public IActionResult Details(int? id)
+        {
+            if (!id.HasValue) return BadRequest();
+            var employee = _employeeService.GetEmployeeById(id.Value);
+            if (employee is null) return NotFound();
+            return View(employee);
+        }
+
+        #endregion
+
+      
+
+
+
 
     }
 }
