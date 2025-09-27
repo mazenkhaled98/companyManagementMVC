@@ -31,6 +31,8 @@ namespace Demo.presentation
             builder.Services.AddScoped<IEmployeeRepository, EmployeeRepository>();
             //builder.Services.AddAutoMapper(cfg => { },typeof(MappingProfile).Assembly);
             builder.Services.AddAutoMapper(Mapping=>Mapping.AddProfile(new MappingProfile()));
+
+            builder.Services.AddScoped<IEmployeeService, EmployeeService>();
             #endregion
 
             var app = builder.Build();
