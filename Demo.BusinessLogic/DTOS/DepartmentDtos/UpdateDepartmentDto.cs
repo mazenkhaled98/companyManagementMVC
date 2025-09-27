@@ -1,4 +1,4 @@
-﻿namespace Demo.BusinessLogic.DTOS
+﻿namespace Demo.BusinessLogic.DTOS.DepartmentDtos
 {
     public class UpdateDepartmentDto
     {

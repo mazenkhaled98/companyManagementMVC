@@ -1,4 +1,4 @@
-﻿using Demo.BusinessLogic.DTOS;
+﻿using Demo.BusinessLogic.DTOS.DepartmentDtos;
 using Demo.DataAccess.Models.DepartmentModule;
 
 namespace Demo.BusinessLogic.Factories
