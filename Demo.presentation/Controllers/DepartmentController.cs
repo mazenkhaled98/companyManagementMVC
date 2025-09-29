@@ -32,12 +32,19 @@ namespace Demo.presentation.Controllers
 
         [HttpPost]
         [ ValidateAntiForgeryToken]
-        public IActionResult Create(CreateDepartmentDto departmentDto)
+        public IActionResult Create(DepartmentViewModel departmentViewModel)
         {
             if (ModelState.IsValid)//server side validation
             {
                 try { 
-                   int result= _departmentService.AddDepartment(departmentDto);
+                   int result= _departmentService.AddDepartment(new CreateDepartmentDto { 
+                        Code=departmentViewModel.Code,
+                        Name=departmentViewModel.Name,
+                        Description=departmentViewModel.Description,
+                        DateOfCreation=departmentViewModel.Createdon
+
+
+                   });
                      if (result > 0)
                      {
                           
@@ -65,7 +72,7 @@ namespace Demo.presentation.Controllers
                     }
                 }
             }
-            return View(departmentDto);
+            return View(departmentViewModel);
 
 
         }
@@ -103,7 +110,7 @@ namespace Demo.presentation.Controllers
             {
                 return NotFound();
             }
-            var departmentVM = new DepartmentEditViewModel
+            var departmentVM = new DepartmentViewModel
             {
                
                 Name = department.Name,
@@ -117,7 +124,7 @@ namespace Demo.presentation.Controllers
 
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public IActionResult Edit([FromRoute]int? id,DepartmentEditViewModel departmentVM)
+        public IActionResult Edit([FromRoute]int? id,DepartmentViewModel departmentVM)
         {
            if(ModelState.IsValid)
             {

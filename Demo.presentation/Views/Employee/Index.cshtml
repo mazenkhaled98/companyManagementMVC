@@ -39,16 +39,10 @@
                     <td><i class="fa @(employee.IsActive ? "fa-solid fa-circle-check text-success" : "fa-solid fa-circle-xmark text-danger")"></i></td>
                     <td>@employee.Gender</td>
 
-                    <td>
-                        <a class="btn btn-primary" asp-action="Details" asp-route-id="@employee.Id">
-                            <i class="fas fa-eye"></i> Details
-                        </a>
-                    </td>
-                    <td>
-                        <a class="btn btn-success" asp-action="Edit" asp-route-id="@employee.Id">
-                            <i class="fas fa-edit"></i> Edit
-                        </a>
-                    </td>
+                  @* render partial view *@
+                  @* @Html.Partial("_ButtonsPartialView",employee.Id); *@
+                  @* @{Html.RenderPartial("_ButtonsPartialView",employee.Id)} *@
+                  <partial name ="_ButtonsPartialView" model="employee.Id"></partial>
                     <td>
                         <button type="button" class="btn btn-danger" data-bs-toggle="modal" data-bs-target="#deleteModal-@employee.Id">
                             <i class="fas fa-trash"></i> Delete
