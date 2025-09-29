@@ -57,16 +57,21 @@ namespace Demo.presentation.Controllers
 
 
                    });
+                    string message;
                      if (result > 0)
                      {
-                          
-                          return RedirectToAction(nameof(Index));
-                     }
+                           message = "Department created successfully";
+                  
+                           
+                    }
                      else
                      {
-                          ModelState.AddModelError(string.Empty, "Failed to create department");
+                        message = "Failed to create department";
+                   
                           
                     }
+                     TempData["message"] = message;
+                        return RedirectToAction(nameof(Index));
                 }
 
                 catch (Exception ex)
