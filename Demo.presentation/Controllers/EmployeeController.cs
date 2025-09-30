@@ -16,9 +16,9 @@ namespace Demo.Presentation.Controllers
         //Master action
         //BaseUrl / Employee / Index ==> Send data [ Controller --> View ]
         [HttpGet]
-        public IActionResult Index()
+        public IActionResult Index(string? EmployeeSearchName)
         {
-            var employees = _employeeService.GetAllEmployees();
+            var employees = _employeeService.GetAllEmployees(EmployeeSearchName);
             return View(employees);
         }
 

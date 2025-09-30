@@ -30,11 +30,20 @@ namespace Demo.BusinessLogic.Services.Classes
 
         }
 
-        public IEnumerable<EmployeeDto> GetAllEmployees(bool withTracking = false)
+        public IEnumerable<EmployeeDto> GetAllEmployees(string? EmployeeSearchName, bool withTracking = false)
         {
-            var employees = _employeeRepository.GetAll(withTracking);
+            IEnumerable<Employee> employees;
+            if (String.IsNullOrEmpty(EmployeeSearchName))
+            {
+                 employees = _employeeRepository.GetAll(withTracking);
+               
+            }
+            else
+            {
+                 employees = _employeeRepository.GetAll(e => e.Name.ToLower().Contains( EmployeeSearchName.ToLower()));
+                
+            }
             return _mapper.Map<IEnumerable<Employee>, IEnumerable<EmployeeDto>>(employees);
-      
 
         }
 

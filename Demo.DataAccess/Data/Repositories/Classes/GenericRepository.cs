@@ -73,5 +73,10 @@ namespace Demo.DataAccess.Data.Repositories.Classes
            return  _dbContext.Set<T>().Where(entity=>entity.IsDeleted==false)
                 .Select(selector).ToList();
         }
+
+        public IEnumerable<T> GetAll(Expression<Func<T, bool>> predicate)
+        {
+           return _dbContext.Set<T>().Where(predicate).Where(e=>e.IsDeleted==false).ToList();
+        }
     }
 }
