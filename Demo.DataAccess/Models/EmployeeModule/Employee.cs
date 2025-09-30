@@ -1,4 +1,5 @@
-﻿using Demo.DataAccess.Models.Shared;
+﻿using Demo.DataAccess.Models.DepartmentModule;
+using Demo.DataAccess.Models.Shared;
 
 namespace Demo.DataAccess.Models.EmployeeModule
 {
@@ -22,5 +23,9 @@ namespace Demo.DataAccess.Models.EmployeeModule
 
         //employeetype ==> [parttimeemployee,fulltimeemployee]
         public EmployeeType Employeetype { get; set; }
+
+        public Department? Department { get; set; }
+
+        public int? DepartmentId { get; set; }
     }
 }
