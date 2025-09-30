@@ -16,5 +16,7 @@ namespace Demo.BusniessLogic.Dtos
         public string Gender { get; set; }
         [Display(Name = "Employee Type")]
         public string EmployeeType { get; set; }
+
+        public string ? DepartmentName { get; set; }
     }
 }

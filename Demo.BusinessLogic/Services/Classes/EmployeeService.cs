@@ -34,34 +34,7 @@ namespace Demo.BusinessLogic.Services.Classes
         {
             var employees = _employeeRepository.GetAll(withTracking);
             return _mapper.Map<IEnumerable<Employee>, IEnumerable<EmployeeDto>>(employees);
-            //return  _employeeRepository.GetAll(e=> new EmployeeDto()
-            //  { 
-            //  Id=e.Id,
-            //  Name=e.Name,
-            //  Age=e.Age,
-            //  Salary=e.Salary,
-            //  }).Where(e=>e.Age>27);
-            //var employeeDtos = employees.Select(e => new EmployeeDto()
-            //{
-            //    Id = e.Id,
-            //    Name = e.Name,
-            //    Age = e.Age,
-            //    Salary = e.Salary,
-            //    IsActive = e.IsActive,
-            //    Email = e.Email,
-            //    Gender = e.Gender.ToString(),
-            //    EmployeeType = e.Employeetype.ToString()
-            //});
-
-
-            //var employees=  _employeeRepository.GetIEnumrable().Where(e => e.IsDeleted == false).Select(e=>new EmployeeDto()
-            //  {
-            //      Id = e.Id,
-            //      Age = e.Age,
-            //      Salary = e.Salary,
-
-            //  });
-            //  return employees.ToList();
+      
 
         }
 
@@ -71,25 +44,7 @@ namespace Demo.BusinessLogic.Services.Classes
             if (employee == null) return null;
             else
                 return _mapper.Map<Employee, EmployeeDetailsDto>(employee);
-            //return new EmployeeDetailsDto()
-            //{
-            //    Id = employee.Id,
-            //    Name = employee.Name,
-            //    Age = employee.Age,
-            //    Address = employee.Address,
-            //    Salary = employee.Salary,
-            //    IsActive = employee.IsActive,
-            //    Email = employee.Email,
-            //    PhoneNumber = employee.Phonenumber,
-            //    HiringDate = DateOnly.FromDateTime(employee.HiringDate),
-            //    EmployeeType = employee.Employeetype.ToString(),
-            //    CreatedBy = employee.CreatedBy,
-            //    CreatedOn = employee.CreatedOn,
-            //    ModifiedBy = employee.ModifedBy,
-            //    ModifiedOn = employee.ModifiedOn,
-
-
-            //};
+           
         }
 
         public int UpdateEmployee(UpdateEmployeeDto employee)
