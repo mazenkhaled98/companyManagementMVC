@@ -35,6 +35,8 @@ namespace Demo.presentation
             builder.Services.AddAutoMapper(Mapping=>Mapping.AddProfile(new MappingProfile()));
 
             builder.Services.AddScoped<IEmployeeService, EmployeeService>();
+
+            builder.Services.AddScoped<IUnitOfWork, UnitOfWork>();
             #endregion
 
             var app = builder.Build();

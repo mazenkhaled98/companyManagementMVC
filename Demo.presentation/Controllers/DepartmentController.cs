@@ -14,18 +14,7 @@ namespace Demo.presentation.Controllers
         #region Index
         public IActionResult Index()
         {
-            //viewdataa , viewbag ==> storage  ==> deal with same type of data
-            //extra info send to view
-            //1] controller --> view
-            //2] view --> partial view
-            //3] view --> view to layout
-            //view data==> safe 
-            //viewbag ==>unsafe==> dynamic 
-
-            //ViewData["message"] = "hello from view data";
-            //ViewBag.message = "hello from view bag";
-            ViewData["message"] = new DepartmentDto { Name = "test" };
-            ViewBag.message = new DepartmentDto { Name = "test" };
+            
             var departments = _departmentService.GetAllDepartments();
             return View(departments);
         }

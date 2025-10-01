@@ -7,12 +7,19 @@ using Demo.DataAccess.Models.EmployeeModule;
 
 namespace Demo.BusinessLogic.Services.Classes
 {
-    public class EmployeeService(IEmployeeRepository _employeeRepository,IMapper _mapper) : IEmployeeService
+    public class EmployeeService(IUnitOfWork _unitOfWork,IMapper _mapper) : IEmployeeService
     {
+        
+
+
         public int CreateEmployee(CreateEmployeeDto employeeDto)
         {
-         var employee=  _mapper.Map<CreateEmployeeDto,Employee >(employeeDto);
-            return _employeeRepository.Add(employee);
+            
+
+            var employee=  _mapper.Map<CreateEmployeeDto,Employee >(employeeDto);
+             _unitOfWork.EmployeeRepository.Add(employee);
+
+            return _unitOfWork.SaveChanges();
 
         }
 
@@ -20,27 +27,30 @@ namespace Demo.BusinessLogic.Services.Classes
         {
             //soft delete ==> set isActive to false
 
-            var employee = _employeeRepository.GetById(id);
+            var employee = _unitOfWork.EmployeeRepository.GetById(id);
             if (employee == null) return false;
             else
             {
                 employee.IsDeleted = true;
-               return _employeeRepository.Update(employee) > 0 ? true :false;
+                 _unitOfWork.EmployeeRepository.Update(employee) ;
+                return _unitOfWork.SaveChanges() > 0 ? true : false;
             }
 
         }
 
         public IEnumerable<EmployeeDto> GetAllEmployees(string? EmployeeSearchName, bool withTracking = false)
         {
+
+            var employeeRepo = _unitOfWork.EmployeeRepository;
             IEnumerable<Employee> employees;
             if (String.IsNullOrEmpty(EmployeeSearchName))
             {
-                 employees = _employeeRepository.GetAll(withTracking);
+                 employees = employeeRepo.GetAll(withTracking);
                
             }
             else
             {
-                 employees = _employeeRepository.GetAll(e => e.Name.ToLower().Contains( EmployeeSearchName.ToLower()));
+                 employees = employeeRepo.GetAll(e => e.Name.ToLower().Contains( EmployeeSearchName.ToLower()));
                 
             }
             return _mapper.Map<IEnumerable<Employee>, IEnumerable<EmployeeDto>>(employees);
@@ -49,7 +59,7 @@ namespace Demo.BusinessLogic.Services.Classes
 
         public EmployeeDetailsDto? GetEmployeeById(int id)
         {
-           var employee= _employeeRepository.GetById(id);
+           var employee= _unitOfWork.EmployeeRepository.GetById(id);
             if (employee == null) return null;
             else
                 return _mapper.Map<Employee, EmployeeDetailsDto>(employee);
@@ -58,8 +68,8 @@ namespace Demo.BusinessLogic.Services.Classes
 
         public int UpdateEmployee(UpdateEmployeeDto employee)
         {
-          return _employeeRepository.Update(_mapper.Map<UpdateEmployeeDto,Employee>(employee));
-         
+           _unitOfWork.EmployeeRepository.Update(_mapper.Map<UpdateEmployeeDto,Employee>(employee));
+         return _unitOfWork.SaveChanges();
         }
     }
 }
