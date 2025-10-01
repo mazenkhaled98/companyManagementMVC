@@ -20,7 +20,9 @@ namespace Demo.presentation
 
             builder.Services.AddDbContext<ApplicationDbContext>(options =>
             { 
-            options.UseSqlServer(builder.Configuration.GetConnectionString("DefaultConnectionString")!);
+            options.UseSqlServer(builder.Configuration.GetConnectionString("DefaultConnectionString"));
+                options.UseLazyLoadingProxies();
+
             });
 
             builder.Services.AddScoped<IDepartmentRepository,DepartmentRepository>();
@@ -33,6 +35,8 @@ namespace Demo.presentation
             builder.Services.AddAutoMapper(Mapping=>Mapping.AddProfile(new MappingProfile()));
 
             builder.Services.AddScoped<IEmployeeService, EmployeeService>();
+
+            builder.Services.AddScoped<IUnitOfWork, UnitOfWork>();
             #endregion
 
             var app = builder.Build();

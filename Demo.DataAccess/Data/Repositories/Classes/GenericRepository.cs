@@ -35,26 +35,26 @@ namespace Demo.DataAccess.Data.Repositories.Classes
 
 
         //add department
-        public int Add(T entity)
+        public void Add(T entity)
         {
             _dbContext.Set<T>().Add(entity);
-            return _dbContext.SaveChanges();
+
 
         }
 
         //update department
-        public int Update(T entity)
+        public void Update(T entity)
         {
             _dbContext.Set<T>().Update(entity);
-            return _dbContext.SaveChanges();
+            
 
         }
 
         //delete department
-        public int Delete(T entity)
+        public void Delete(T entity)
         {
             _dbContext.Set<T>().Remove(entity);
-            return _dbContext.SaveChanges();
+            
 
         }
 
@@ -72,6 +72,13 @@ namespace Demo.DataAccess.Data.Repositories.Classes
         {
            return  _dbContext.Set<T>().Where(entity=>entity.IsDeleted==false)
                 .Select(selector).ToList();
+        }
+
+        public IEnumerable<T> GetAll(Expression<Func<T, bool>> predicate)
+        {
+
+           return _dbContext.Set<T>().Where(predicate).Where(e=>e.IsDeleted==false).ToList();
+
         }
     }
 }

@@ -14,6 +14,7 @@ namespace Demo.presentation.Controllers
         #region Index
         public IActionResult Index()
         {
+            
             var departments = _departmentService.GetAllDepartments();
             return View(departments);
         }
@@ -32,22 +33,34 @@ namespace Demo.presentation.Controllers
 
         [HttpPost]
         [ ValidateAntiForgeryToken]
-        public IActionResult Create(CreateDepartmentDto departmentDto)
+        public IActionResult Create(DepartmentViewModel departmentViewModel)
         {
             if (ModelState.IsValid)//server side validation
             {
                 try { 
-                   int result= _departmentService.AddDepartment(departmentDto);
+                   int result= _departmentService.AddDepartment(new CreateDepartmentDto { 
+                        Code=departmentViewModel.Code,
+                        Name=departmentViewModel.Name,
+                        Description=departmentViewModel.Description,
+                        DateOfCreation=departmentViewModel.Createdon
+
+
+                   });
+                    string message;
                      if (result > 0)
                      {
-                          
-                          return RedirectToAction(nameof(Index));
-                     }
+                           message = "Department created successfully";
+                  
+                           
+                    }
                      else
                      {
-                          ModelState.AddModelError(string.Empty, "Failed to create department");
+                        message = "Failed to create department";
+                   
                           
                     }
+                     TempData["message"] = message;
+                        return RedirectToAction(nameof(Index));
                 }
 
                 catch (Exception ex)
@@ -65,7 +78,7 @@ namespace Demo.presentation.Controllers
                     }
                 }
             }
-            return View(departmentDto);
+            return View(departmentViewModel);
 
 
         }
@@ -103,7 +116,7 @@ namespace Demo.presentation.Controllers
             {
                 return NotFound();
             }
-            var departmentVM = new DepartmentEditViewModel
+            var departmentVM = new DepartmentViewModel
             {
                
                 Name = department.Name,
@@ -117,7 +130,7 @@ namespace Demo.presentation.Controllers
 
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public IActionResult Edit([FromRoute]int? id,DepartmentEditViewModel departmentVM)
+        public IActionResult Edit([FromRoute]int? id,DepartmentViewModel departmentVM)
         {
            if(ModelState.IsValid)
             {
