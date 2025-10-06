@@ -18,5 +18,8 @@ namespace Demo.BusniessLogic.Dtos
         public string EmployeeType { get; set; }
 
         public string ? DepartmentName { get; set; }
+
+        [Display(Name="Name")]
+        public string? ImageName { get; set; }
     }
 }

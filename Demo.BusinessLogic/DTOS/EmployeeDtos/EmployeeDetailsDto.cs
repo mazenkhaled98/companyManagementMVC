@@ -21,5 +21,7 @@
         public string? DepartmentName { get; set; }
 
         public int DepartmentId { get; set; }
+
+        public string? ImageName { get; set; }
     }
 }

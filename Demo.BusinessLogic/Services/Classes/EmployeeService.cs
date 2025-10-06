@@ -1,5 +1,6 @@
 ﻿using AutoMapper;
 using Demo.BusinessLogic.DTOS.EmployeeDtos;
+using Demo.BusinessLogic.Services.AttachmentService.Interfaces;
 using Demo.BusinessLogic.Services.Interfaces;
 using Demo.BusniessLogic.Dtos;
 using Demo.DataAccess.Data.Repositories.Interfaces;
@@ -7,16 +8,20 @@ using Demo.DataAccess.Models.EmployeeModule;
 
 namespace Demo.BusinessLogic.Services.Classes
 {
-    public class EmployeeService(IUnitOfWork _unitOfWork,IMapper _mapper) : IEmployeeService
+    public class EmployeeService(IUnitOfWork _unitOfWork,IMapper _mapper ,IAttachmentService _attachmentService) : IEmployeeService
     {
         
 
 
         public int CreateEmployee(CreateEmployeeDto employeeDto)
         {
-            
-
-            var employee=  _mapper.Map<CreateEmployeeDto,Employee >(employeeDto);
+            var employee = _mapper.Map<CreateEmployeeDto, Employee>(employeeDto);
+            if (employeeDto.Image is not null)
+            {
+               string? imageName= _attachmentService.upload(employeeDto.Image,"images");
+                employee.ImageName = imageName;
+            }
+           
              _unitOfWork.EmployeeRepository.Add(employee);
 
             return _unitOfWork.SaveChanges();
