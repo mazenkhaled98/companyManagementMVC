@@ -10,6 +10,7 @@ using Microsoft.AspNetCore.Mvc;
 
 namespace Demo.Presentation.Controllers
 {        [Authorize]
+    
 
     public class EmployeeController(IEmployeeService _employeeService ,IWebHostEnvironment _env, ILogger<DepartmentController> _logger) : Controller
     {

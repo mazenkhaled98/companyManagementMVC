@@ -1,4 +1,6 @@
-﻿using Demo.DataAccess.Models.IdentityModule;
+﻿using Demo.BusinessLogic.Services.EmailSender;
+using Demo.DataAccess.Models.IdentityModule;
+using Demo.DataAccess.Models.Shared;
 using Demo.presentation.Controllers;
 using Demo.presentation.ViewModels.Identity;
 using Microsoft.AspNetCore.Identity;
@@ -6,9 +8,10 @@ using Microsoft.AspNetCore.Mvc;
 
 namespace Demo.Presentation.Controllers
 {
-    public class AccountController(UserManager<ApplicationUser> _userManager,SignInManager<ApplicationUser> _signInManager) : Controller
+    public class AccountController(UserManager<ApplicationUser> _userManager,SignInManager<ApplicationUser> _signInManager ,IEmailSender _emailSender) : Controller
+
     {
-        //Register , SignIn , SignOut
+        //Register , SignIn , SignOut , forget password
 
         #region Register
         [HttpGet]
@@ -92,6 +95,58 @@ namespace Demo.Presentation.Controllers
             _signInManager.SignOutAsync().GetAwaiter().GetResult();
             return RedirectToAction(nameof(Login));
         }
+        #endregion
+
+        #region ForgetPassword
+        [HttpGet]
+        public IActionResult ForgetPassword() => View(); //return form with one input field [Email]
+
+
+        [HttpPost]
+        [AutoValidateAntiforgeryToken]
+
+        public IActionResult SendResetPasswordUrl(ForgetPasswordViewModel forgetPasswordViewModel)
+        {
+           if(ModelState.IsValid)
+            {
+              var user=  _userManager.FindByEmailAsync(forgetPasswordViewModel.Email).Result;
+                if (user != null)
+                {
+                    //email ==> to , subject , body
+                    //user defined data tybe for this ==> to string , subject string ,body string
+                    var token=_userManager.GeneratePasswordResetTokenAsync(user).Result;
+                    var url = Url.Action("ResetPassword", "Account", new { email = forgetPasswordViewModel.Email ,token }, Request.Scheme);
+                    var email = new Email()
+                    {
+                        To = forgetPasswordViewModel.Email,
+                        Subject = "Reset your password",
+                        //baseurl/Account/Resetpassword?Email=MAriam@gmail.com&token=xndjndxj
+                        //Body= //url == > reset password [form ] [new password , confirm password]
+                        Body = url
+
+                    };
+                    //send email [shared]
+                    _emailSender.SendEmail(email);
+                    return RedirectToAction("CheckYourInbox");
+                }
+                else
+                {
+                    ModelState.AddModelError("", "invalid operation");
+                }
+            }
+
+            return View(forgetPasswordViewModel);
+           
+        }
+
+        [HttpGet]
+        public IActionResult CheckYourInbox() => View();
+
+        #endregion
+
+
+        #region Ressetpassword
+
         #endregion
     }
 }

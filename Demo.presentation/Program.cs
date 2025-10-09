@@ -2,6 +2,7 @@ using Demo.BusinessLogic.Mappings;
 using Demo.BusinessLogic.Services.AttachmentService.Classes;
 using Demo.BusinessLogic.Services.AttachmentService.Interfaces;
 using Demo.BusinessLogic.Services.Classes;
+using Demo.BusinessLogic.Services.EmailSender;
 using Demo.BusinessLogic.Services.Interfaces;
 using Demo.DataAccess.Data.Contexts;
 using Demo.DataAccess.Data.Repositories.Classes;
@@ -43,6 +44,8 @@ namespace Demo.presentation
             builder.Services.AddScoped<IUnitOfWork, UnitOfWork>();
 
             builder.Services.AddScoped<IAttachmentService, AttachmentService>();
+
+            builder.Services.AddScoped<IEmailSender, EmailSender>();
 
 
             builder.Services.AddIdentity<ApplicationUser, IdentityRole>()
