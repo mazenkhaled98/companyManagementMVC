@@ -144,7 +144,6 @@ namespace Demo.Presentation.Controllers
 
         #endregion
 
-
         #region Ressetpassword
         [HttpGet]
         public IActionResult ResetPassword(string email, string token)
