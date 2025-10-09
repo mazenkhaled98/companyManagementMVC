@@ -146,6 +146,34 @@ namespace Demo.Presentation.Controllers
 
 
         #region Ressetpassword
+        [HttpGet]
+        public IActionResult ResetPassword(string email, string token)
+        {
+           TempData["email"] = email;
+              TempData["token"] = token;
+            return View();
+        }
+
+        [HttpPost]
+        [AutoValidateAntiforgeryToken]
+        public IActionResult ResetPassword(ResetPasswoedViewModel resetPasswordViewModel)
+        {
+            if (ModelState.IsValid)
+            {
+                var email = TempData["email"] as string;
+                var token = TempData["token"] as string;
+                var user = _userManager.FindByEmailAsync(email).Result;
+                if (user != null)
+                {
+                    var result = _userManager.ResetPasswordAsync(user, token, resetPasswordViewModel.NewPassword).Result;
+                    if (result.Succeeded)
+                        return RedirectToAction(nameof(Login));
+                    
+                }
+            }
+            ModelState.AddModelError("", "invalid operation");
+            return View(resetPasswordViewModel);
+        }
 
         #endregion
     }
