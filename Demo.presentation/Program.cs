@@ -65,7 +65,10 @@ namespace Demo.presentation
 
             app.UseRouting();
 
-           
+            app.UseAuthentication(); //Identity
+            app.UseAuthorization();
+
+
 
             app.MapControllerRoute(
                 name: "default",

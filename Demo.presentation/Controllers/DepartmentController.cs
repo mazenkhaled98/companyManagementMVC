@@ -4,13 +4,16 @@ using Demo.BusinessLogic.DTOS.DepartmentDtos;
 using Demo.BusinessLogic.Services.Interfaces;
 using Demo.DataAccess.Models;
 using Demo.presentation.ViewModels;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore.Metadata.Internal;
 
 namespace Demo.presentation.Controllers
 {
+[Authorize]
     public class DepartmentController(IDepartmentService _departmentService , IWebHostEnvironment _env , ILogger<DepartmentController> _logger) : Controller
     {
+        
         #region Index
         public IActionResult Index()
         {

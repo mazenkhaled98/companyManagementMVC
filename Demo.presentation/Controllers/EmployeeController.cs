@@ -5,12 +5,15 @@ using Demo.DataAccess.Models.EmployeeModule;
 using Demo.DataAccess.Models.Shared;
 using Demo.presentation.Controllers;
 using Demo.presentation.ViewModels;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 
 namespace Demo.Presentation.Controllers
-{
+{        [Authorize]
+
     public class EmployeeController(IEmployeeService _employeeService ,IWebHostEnvironment _env, ILogger<DepartmentController> _logger) : Controller
     {
+
         #region Index
 
         //Master action

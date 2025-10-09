@@ -1,11 +1,13 @@
 using System.Diagnostics;
 using Demo.presentation.ViewModels;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 
 namespace Demo.presentation.Controllers
-{
+{ [Authorize]
     public class HomeController : Controller
     {
+       
         private readonly ILogger<HomeController> _logger;
         //console , file ,db
 
